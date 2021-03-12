@@ -1,0 +1,128 @@
+﻿@model VouterApp.Models.VouterModel
+
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+       <div class="row clearfix">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Voter Registration</h4>
+                  </div>
+                  <div class="card-body">
+                  
+    
+    
+    
+                          <div class="form-horizontal">
+
+                              @Html.ValidationSummary(true)
+
+                              <div class="form-group form-float">
+                                  <div class="form-line">
+                                      @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+
+                                          @Html.EditorFor(model => model.FirstName, new { @class = "form-control" })
+                                          @Html.ValidationMessageFor(model => model.FirstName)
+                                    
+                                  </div>
+
+                                  <div class="form-line">
+                                      @Html.LabelFor(model => model.SecondName, new { @class = "control-label col-md-2" })
+                                      
+                                          @Html.EditorFor(model => model.SecondName, new { @class = "form-control" })
+                                          @Html.ValidationMessageFor(model => model.SecondName)
+                                   
+                                  </div>
+
+                                  <div class="form-line">
+                                      @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+
+                                      @Html.EditorFor(model => model.LastName, new { @class = "form-control" })
+                                      @Html.ValidationMessageFor(model => model.LastName)
+
+                                  </div>
+
+                                  <div class="form-line">
+                                      @Html.LabelFor(model => model.NationalID, new { @class = "control-label col-md-2" })
+                                     
+                                          @Html.EditorFor(model => model.NationalID, new { @class = "form-control" })
+                                          @Html.ValidationMessageFor(model => model.NationalID)
+                                 
+                                  </div>
+
+                                  <div class="form-line">
+                                      @Html.LabelFor(model => model.VoutingCardNo, new { @class = "control-label col-md-2" })
+                                 
+                                          @Html.EditorFor(model => model.VoutingCardNo, new { @class = "form-control" })
+                                          @Html.ValidationMessageFor(model => model.VoutingCardNo)
+                                   
+                                  </div>
+
+                                  <div class="form-line">
+                                      Select Region 
+                                  
+                                          @Html.DropDownListFor(model => model.Region, new SelectList(ViewBag.rg, "Value", "Text"), new { @class = "form-control" })
+
+                                          @Html.ValidationMessageFor(model => model.Region)
+
+                                   
+                                  </div>
+
+                                  <div class="form-line">
+                                 Select Distric
+                                          @Html.DropDownListFor(model => model.District, new SelectList(ViewBag.dt, "Value", "Text"), new { @class = "form-control" })
+
+
+                                          @Html.ValidationMessageFor(model => model.District)
+                                 
+                                  </div>
+
+                                  <div class="form-line">
+                                      @Html.LabelFor(model => model.Center, new { @class = "control-label col-md-2" })
+
+
+                                          @Html.EditorFor(model => model.Center, new { @class = "form-control col-md-8" })
+                                          @Html.ValidationMessageFor(model => model.Center)
+                                    
+                                  </div>
+
+                                  <div class="form-line">
+                                      @Html.LabelFor(model => model.DontatingFamily, new { @class = "control-label col-md-2" })
+                                          @Html.EditorFor(model => model.DontatingFamily, new { @class = "form-control" })
+                                          @Html.ValidationMessageFor(model => model.DontatingFamily)
+                                     
+                                  </div>
+
+                                  <div class="form-line">
+                                      @Html.LabelFor(model => model.userid, "userid", new { @class = "control-label col-md-2" })
+                                     
+                                          @Html.DropDownListFor(model => model.userid, new SelectList(ViewBag.UserList, "Value", "Text"), new { @class = "form-control" })
+
+
+                                          @Html.ValidationMessageFor(model => model.userid)
+                                    
+                                  </div>
+
+                                  <div class="form-group">
+                                      <div class="col-md-offset-2 col-md-10">
+                                          <input type="submit" value="Create" class="btn btn-default  btn-danger" />
+                                      </div>
+                                  </div>
+                              </div>
+                              </div>
+                      </div>
+
+                    </div>
+                  </div>
+           </div>
+                              }
+
+
+

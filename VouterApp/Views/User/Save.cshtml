@@ -1,0 +1,77 @@
+﻿@model VouterApp.Models.UserModel
+
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="section-body">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>User Registration</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-12 col-sm-12">
+
+
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+
+                                    @Html.ValidationSummary(true)
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.UserName)
+                                            @Html.ValidationMessageFor(model => model.UserName)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Paswd, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Paswd)
+                                            @Html.ValidationMessageFor(model => model.Paswd)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Roles, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Roles)
+                                            @Html.ValidationMessageFor(model => model.Roles)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Candidateid, "Candidateid", new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.Candidateid, new SelectList(ViewBag.cndidate, "Value", "Text"), new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Candidateid)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Create" class="btn btn-default btn-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+                </div>
+                </div>
+                </div>

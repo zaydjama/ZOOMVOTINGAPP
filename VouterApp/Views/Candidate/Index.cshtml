@@ -1,0 +1,87 @@
+﻿@model IEnumerable<VouterApp.Models.CandidateModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="section-body">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Candidate Info</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+
+                            <p>
+                                <a class="btn btn-danger" href="/Candidate/save/0" style="margin-bottom:20px; margin-top:20px;">Add New</a>
+
+                            </p>
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FirstName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SecondName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.LastName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Region)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.District)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Party)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Election)
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FirstName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SecondName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LastName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Region)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.District)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Party)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Election)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Save", new { id = item.ID }, new { @class = "btn btn-danger" }) 
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

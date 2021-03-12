@@ -1,0 +1,61 @@
+﻿@model VouterApp.Models.DistrictModel
+
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+      <div class="section-body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="card">
+                      <div class="card-header">
+                          <h4>Distric Info</h4>
+                      </div>
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="col-lg-8 col-md-12 col-sm-12">
+
+                                  <div class="form-horizontal">
+                                 
+                         
+                                      @Html.ValidationSummary(true)
+
+                                      <div class="form-group">
+                                          @Html.LabelFor(model => model.DistricName, new { @class = "control-label col-md-4" })
+                                          <div class="col-md-10">
+                                              @Html.EditorFor(model => model.DistricName)
+                                              @Html.ValidationMessageFor(model => model.DistricName)
+                                          </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                          @Html.LabelFor(model => model.RegionId, "RegionId", new { @class = "control-label col-md-4" })
+                                          <div class="col-md-10">
+                                              @Html.DropDownList("RegionId", new SelectList(ViewBag.Region, "Value", "Text"), new { @class = "form-control" })
+                                              @Html.ValidationMessageFor(model => model.RegionId)
+                                          </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                          <div class="col-md-offset-2 col-md-10">
+                                              <input type="submit" value="Create" class="btn btn-default btn-danger" />
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+
+                  </div>
+                  </div>
+                    </div>
+}
+
