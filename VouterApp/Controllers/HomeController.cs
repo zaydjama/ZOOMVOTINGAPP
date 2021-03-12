@@ -18,6 +18,14 @@ namespace VouterApp.Controllers
             return View();
         }
         public ActionResult GetData()
+        {     
+            using (MyDbContext db = new MyDbContext())
+            {
+                List<RegionModel> employeeList = db.tblRegion.ToList<RegionModel>();
+                return Json(new { data = employeeList }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetDatas()
         {
             using (MyDbContext db = new MyDbContext())
             {
