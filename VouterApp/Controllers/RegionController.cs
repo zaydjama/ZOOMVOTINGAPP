@@ -7,6 +7,7 @@ using VouterApp.Models;
 
 namespace VouterApp.Controllers
 {
+    [Authorize]
     public class RegionController : Controller
     {
         //
@@ -14,11 +15,19 @@ namespace VouterApp.Controllers
         public ActionResult Index()
 
         {
-            MyDbContext dc = new MyDbContext();
-            var Region = dc.tblRegion.ToList();
-            return View(Region);
+           
+            return View();
         }
-      
+        public ActionResult GetData()
+        {
+            using (MyDbContext db = new MyDbContext())
+            {
+                List<RegionModel> RegionList = db.tblRegion.ToList<RegionModel>();
+                return Json(new { data = RegionList }, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
         public ActionResult Save(int id)
         {
             try
@@ -36,29 +45,7 @@ namespace VouterApp.Controllers
             }
         }
 
-        public ActionResult Delete(int id)
-        {
-            try
-            {
-                using (MyDbContext dc = new MyDbContext())
-                {
-                    var v = dc.tblRegion.Where(a => a.Id == id).FirstOrDefault();
-                    if (v != null)
-                    {
-                        return View(v);
-                    }
-                    else
-                    {
-                        return HttpNotFound();
-                    }
-                }
-            }
-            catch
-            {
-                return RedirectToAction("Index");
-            }
-        }
-
+     
         [HttpPost]
         [ActionName("Delete")]
         public ActionResult DeleteRegion(int id)
@@ -103,10 +90,10 @@ namespace VouterApp.Controllers
                             dc.tblRegion.Add(Rgn);
                         }
                         dc.SaveChanges();
-                        return RedirectToAction("Index");
+                        return View("Index");
                     }
                 }
-                return View();
+                return RedirectToAction("Index");
             }
             catch
             {

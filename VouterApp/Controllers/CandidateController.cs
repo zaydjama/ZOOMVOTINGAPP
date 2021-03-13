@@ -7,15 +7,42 @@ using VouterApp.Models;
 
 namespace VouterApp.Controllers
 {
+    [Authorize]
     public class CandidateController : Controller
     {
         //
         // GET: /Candidate/
         public ActionResult Index()
         {
-            MyDbContext dc = new MyDbContext();
-            var Cndidate = dc.tblCandidate.ToList();
-            return View(Cndidate);
+            MyDbContext dbContext = new MyDbContext();
+
+
+            IEnumerable<SelectListItem> Regon = dbContext.tblRegion.Select(c => new SelectListItem
+            {
+
+                Text = c.RegionName,
+                Value = c.RegionName.ToString()
+            });
+            ViewBag.rg = Regon;
+
+            IEnumerable<SelectListItem> dstr = dbContext.tblDistrict.Select(c => new SelectListItem
+            {
+
+                Text = c.DistricName,
+                Value = c.DistricName.ToString()
+            });
+            ViewBag.dt = dstr;
+            return View();
+        }
+        public ActionResult GetData()
+        {
+            using (MyDbContext db = new MyDbContext())
+            {
+                List<CandidateModel> Candidate = db.tblCandidate.ToList<CandidateModel>();
+                return Json(new { data = Candidate }, JsonRequestBehavior.AllowGet);
+            }
+
+
         }
         [HttpPost]
         public ActionResult Save(CandidateModel Candidate)

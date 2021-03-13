@@ -7,48 +7,43 @@ using VouterApp.Models;
 
 namespace VouterApp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
+          [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult Index2()
+
+
+
+          [AllowAnonymous]
+        public ActionResult Login()
         {
+           
             return View();
         }
-        public ActionResult GetData()
-        {     
-            using (MyDbContext db = new MyDbContext())
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(UserModel model)
+        {
+            using (MyDbContext context = new MyDbContext())
             {
-                List<RegionModel> employeeList = db.tblRegion.ToList<RegionModel>();
-                return Json(new { data = employeeList }, JsonRequestBehavior.AllowGet);
+                bool IsValidUser = context.tblUser.Any(user => user.UserName.ToLower() ==
+                     model.UserName.ToLower() && user.Paswd == model.Paswd);
+                if (IsValidUser)
+                {
+                    System.Web.Security.FormsAuthentication.SetAuthCookie(model.UserName, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "invalid Username or Password");
+                return View();
             }
         }
-        public ActionResult GetDatas()
-        {
-            using (MyDbContext db = new MyDbContext())
-            {
-                List<RegionModel> employeeList = db.tblRegion.ToList<RegionModel>();
-                return Json(new { data = employeeList }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+      
+     
 
-            return View();
-        }
-        public ActionResult delete(int id)
-        {
-            
-            return View();
-        }
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

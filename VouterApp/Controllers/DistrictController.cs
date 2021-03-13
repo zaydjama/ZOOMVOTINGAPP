@@ -7,17 +7,32 @@ using VouterApp.Models;
 
 namespace VouterApp.Controllers
 {
+        [Authorize]
     public class DistrictController : Controller
     {
         //
         // GET: /District/
         public ActionResult Index()
         {
-            MyDbContext dc = new MyDbContext();
-            var Region = dc.tblDistrict.ToList();
-            return View(Region);
-        }
+            MyDbContext dbContext = new MyDbContext(); IEnumerable<SelectListItem> items = dbContext.tblRegion.Select(c => new SelectListItem
+            {
 
+                Text = c.RegionName,
+                Value = c.Id.ToString()
+            });
+            ViewBag.Region = items;
+            return View();
+        }
+        public ActionResult GetData()
+        {
+            using (MyDbContext db = new MyDbContext())
+            {
+                List<DistrictModel> DistrictList = db.tblDistrict.ToList<DistrictModel>();
+                return Json(new { data = DistrictList }, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
         MyDbContext db;
 
         public DistrictController()
@@ -26,15 +41,7 @@ namespace VouterApp.Controllers
 
         }
 
-        public ActionResult GetData()
-        {
-            using (db = new MyDbContext())
-            {
-
-                List<DistrictModel> emp = db.tblDistrict.ToList<DistrictModel>();
-                return Json(new { data = emp }, JsonRequestBehavior.AllowGet);
-            }
-        }
+    
         public ActionResult Save(DistrictModel District)
         {
 

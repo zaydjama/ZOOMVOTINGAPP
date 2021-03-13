@@ -1,60 +1,174 @@
-﻿@model IEnumerable<VouterApp.Models.DistrictModel>
+﻿
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="section-body">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Region Info</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+<div class="container">
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="card" id="prinriri">
+                    <div class="card-header">
+                        <h4>District List</h4>
+                        <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#centerModald">Add New </button>
 
+                    </div>
+                  
+                    <div class="card-body">
+                        <div class="table-responsive">
 
-                            <p>
-                                <a class="btn btn-danger" href="/District/save/0" style="margin-bottom:20px; margin-top:20px;">Add New</a>
-
-                            </p>
-                            <table class="table">
-                                <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Region.RegionName)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.DistricName)
-                                    </th>
-                                    <th></th>
-                                </tr>
-
-                                @foreach (var item in Model)
-                                {
+                            <table id="dataTable" class="table table-condensed  table-sm table-hover">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Region.RegionName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DistricName)
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("Edit", "save", new { id = item.Id }, new { @class = "btn btn-danger" }) 
+                                        <th>id</th>
+                                        <th>Name</th>
+                                        <th>Action</th>
 
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-                                        </td>
                                     </tr>
-                                }
-
+                                </thead>
                             </table>
-
                         </div>
+
+
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+          
+            "ajax": {
+                "url": "/District/GetData",
+                "type": "GET",
+                "datatype": "json"
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "columns": [
+                { "data": "Id" },
+                { "data": "DistricName" },
+               {
+                   "data": "Id", "render": function (data) {
+                       return '<a class="btn btn-danger" onclick="Delete(\'' + data + '\')" style="margin-right: 12px"><span class="glyphicon glyphicon-trash"></span>Delete</a><a data-toggle="modal" data-target="#centerModald" class="btn btn-success" onclick="Edit(\'' + data + '\')" style="margin-right: 12px"><span class="glyphicon glyphicon-pencil"></span>Edit</a>';
+                   }
+               },
+
+            ]
+        })
+
+
+    });
+    function Delete(Id) {
+        if (confirm("Are you really want to delete this record?")) {
+            $.ajax({
+                type: 'Post',
+                url: '@Url.Action("Delete", "District")/' + Id ,
+
+                                            success: function (response) {
+
+                                                    location.reload();
+
+                                            }
+                                        });
+                                    }
+                                }
+           function Edit(Id) {
+
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("Save", "District")/' + Id,
+                    data: { Id: Id },
+
+                    success: function (response) {
+
+                        $('#modal-body').html(result);
+
+                    }
+            });
+
+
+        }
+    </script>
+}
+
+<div class="modal fade" id="centerModald" tabindex="-1" role="dialog" data-backdrop="false"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @model VouterApp.Models.DistrictModel
+          @using (Html.BeginForm("Save", "District", FormMethod.Post, new { id = "formsubmit" }))
+                
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="section-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>Distric Info</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-12 col-sm-12">
+
+                                                <div class="form-horizontal">
+
+
+                                                    @Html.ValidationSummary(true)
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.DistricName, new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-10">
+                                                            @Html.EditorFor(model => model.DistricName)
+                                                            @Html.ValidationMessageFor(model => model.DistricName)
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.RegionId, "RegionId", new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-10">
+                                                            @Html.DropDownList("RegionId", new SelectList(ViewBag.Region, "Value", "Text"), new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.RegionId)
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-2 col-md-10">
+                                                            <input type="submit" value="Save" class="btn btn-default btn-danger" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+
+            </div>
+
         </div>
     </div>
 </div>

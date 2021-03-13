@@ -1,89 +1,254 @@
-﻿@model IEnumerable<VouterApp.Models.VouterModel>
-
+﻿
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="card" id="prinriri">
+                    <div class="card-header">
+                        <h4>Vouter List</h4>
+                        <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#centerModald">Add New </button>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            <table id="dataTable" class="table table-condensed  table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>FirstName</th>
+                                        <th>SecondName</th>
+                                        <th>LastName</th>
+                                        <th>NationalID</th>
+                                        <th>VoutingCardNo</th>
+                                        <th>Center</th>
 
 
-<p>
-    <a class="btn btn-danger" href="/Voter/save/0" style="margin-bottom:20px; margin-top:20px;">Add New</a>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SecondName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NationalID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VoutingCardNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Region)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.District)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Center)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DontatingFamily)
-        </th>
-        <th></th>
-    </tr>
+                                        
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SecondName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NationalID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VoutingCardNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Region)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.District)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Center)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DontatingFamily)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+          
+            "ajax": {
+                "url": "/Voter/GetData",
+                "type": "GET",
+                "datatype": "json"
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "columns": [
+                { "data": "ID" },
+                { "data": "FirstName" },
+                   { "data": "SecondName" },
+                      { "data": "LastName" },
+                        { "data": "NationalID" },
+        
+                        { "data": "VoutingCardNo" },
+                           { "data": "Center" },
+                         
+               {
+                   "data": "ID", "render": function (data) {
+                       return '<a class="btn btn-danger" onclick="Delete(\'' + data + '\')" style="margin-right: 12px"><span class="glyphicon glyphicon-trash"></span>Delete</a><a data-toggle="modal" data-target="#centerModald" class="btn btn-success" onclick="Edit(\'' + data + '\')" style="margin-right: 12px"><span class="glyphicon glyphicon-pencil"></span>Edit</a>';
+                   }
+               },
+
+            ]
+        })
+
+
+    });
+    function Delete(Id) {
+        if (confirm("Are you really want to delete this record?")) {
+            $.ajax({
+                type: 'Post',
+                url: '@Url.Action("Delete", "Voter")/' + Id ,
+
+                                            success: function (response) {
+
+                                                    location.reload();
+
+                                            }
+                                        });
+                                    }
+                                }
+           function Edit(Id) {
+
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("Save", "Voter")/' + Id,
+                    data: { Id: Id },
+
+                    success: function (response) {
+
+                        $('#modal-body').html(result);
+
+                    }
+            });
+
+
+        }
+    </script>
 }
+<div class="modal fade" id="centerModald" tabindex="-1" role="dialog" data-backdrop="false"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
 
-</table>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @model VouterApp.Models.VouterModel
+             @using (Html.BeginForm("Save", "Voter", FormMethod.Post, new { id = "formsubmit" }))
+{
+                    @Html.AntiForgeryToken()
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Voter Registration</h4>
+                                </div>
+                                <div class="card-body">
+
+
+
+
+                                    <div class="form-horizontal">
+
+                                        @Html.ValidationSummary(true)
+
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+
+                                                @Html.EditorFor(model => model.FirstName, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.FirstName)
+
+                                            </div>
+
+                                            <div class="form-line">
+                                                @Html.LabelFor(model => model.SecondName, new { @class = "control-label col-md-2" })
+
+                                                @Html.EditorFor(model => model.SecondName, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.SecondName)
+
+                                            </div>
+
+                                            <div class="form-line">
+                                                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+
+                                                @Html.EditorFor(model => model.LastName, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.LastName)
+
+                                            </div>
+
+                                            <div class="form-line">
+                                                @Html.LabelFor(model => model.NationalID, new { @class = "control-label col-md-2" })
+
+                                                @Html.EditorFor(model => model.NationalID, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.NationalID)
+
+                                            </div>
+
+                                            <div class="form-line">
+                                                @Html.LabelFor(model => model.VoutingCardNo, new { @class = "control-label col-md-2" })
+
+                                                @Html.EditorFor(model => model.VoutingCardNo, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.VoutingCardNo)
+
+                                            </div>
+
+                                            <div class="form-line">
+                                                Select Region
+
+                                                @Html.DropDownListFor(model => model.Region, new SelectList(ViewBag.rg, "Value", "Text"), new { @class = "form-control" })
+
+                                                @Html.ValidationMessageFor(model => model.Region)
+
+
+                                            </div>
+
+                                            <div class="form-line">
+                                                Select Distric
+                                                @Html.DropDownListFor(model => model.District, new SelectList(ViewBag.dt, "Value", "Text"), new { @class = "form-control" })
+
+
+                                                @Html.ValidationMessageFor(model => model.District)
+
+                                            </div>
+
+                                            <div class="form-line">
+                                                @Html.LabelFor(model => model.Center, new { @class = "control-label col-md-2" })
+
+
+                                                @Html.EditorFor(model => model.Center, new { @class = "form-control col-md-8" })
+                                                @Html.ValidationMessageFor(model => model.Center)
+
+                                            </div>
+
+                                            <div class="form-line">
+                                                @Html.LabelFor(model => model.DontatingFamily, new { @class = "control-label col-md-2" })
+                                                @Html.EditorFor(model => model.DontatingFamily, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.DontatingFamily)
+
+                                            </div>
+
+                                            <div class="form-line">
+                                                @Html.LabelFor(model => model.userid, "userid", new { @class = "control-label col-md-2" })
+
+                                                @Html.EditorFor(model => model.userid)
+
+
+                                                @Html.ValidationMessageFor(model => model.userid)
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="submit" value="Create" class="btn btn-default  btn-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

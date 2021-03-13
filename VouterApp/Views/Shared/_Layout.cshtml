@@ -15,6 +15,7 @@
     <link href="~/Content/assets/css/components.css" rel="stylesheet" />
     <link href="~/Content/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/Content/assets/bundles/datatables/datatables.min.css" rel="stylesheet" />
+
     <link rel='shortcut icon' type='image/x-icon' href='assets/img/favicon.ico' />
 </head>
 
@@ -67,24 +68,45 @@
                      
                        <li class="menu-header">Menue</li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link has-dropdown">
+                            <a href="/Region/index" class="nav-link ">
                                 <i class="fas fa-leaf"></i><span>
-                                  Registrations
+                                 Region Registration
                                 </span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="alert.html">Region Registration</a></li>
-                                <li><a class="nav-link" href="badge.html">District Registration</a></li>
-                                <li><a class="nav-link" href="breadcrumb.html">Candidate Registration</a></li>
-                                <li><a class="nav-link" href="buttons.html">Voter Registration</a></li>
-                                <li><a class="nav-link" href="buttons.html">User Accounts</a></li>
-
-                            </ul>
+                        
                         </li>
-                     
-                      
-                     
-                    </ul>
+                        <li class="dropdown">
+                           
+                            <a href="/District/Index" class="nav-link ">
+                                <i class="fas fa-cog"></i><span>
+                                    District Registration
+                                </span>
+                            </a>
+                            </li>
+                        <li class="dropdown">
+                            <a href="/Candidate/index" class="nav-link ">
+                                <i class="fas fa-bars"></i><span>
+                               Candidate Registration
+                                </span>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="/Voter/Index" class="nav-link ">
+                                <i class="fas fa-cog"></i><span>
+                                 Voter Registration
+                                </span>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="/user/index" class="nav-link ">
+                                <i class="fas fa-lock"></i><span>
+                                  User Registration
+                                </span>
+                            </a>
+                        </li>
+
+
+</ul>
                 </aside>
             </div>
             <!-- Main Content -->
@@ -234,6 +256,8 @@
     <script src="~/Content/assets/bundles/datatables/export-tables/jszip.min.js"></script>
     <script src="~/Content/assets/js/page/datatables.js"></script>
     <script src="~/Content/assets/bundles/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/bundles/apexcharts/apexcharts.min.js"></script>
+    <script src="~/Content/assets/bundles/chartjs/chart.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 

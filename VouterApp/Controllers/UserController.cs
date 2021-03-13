@@ -7,6 +7,7 @@ using VouterApp.Models;
 
 namespace VouterApp.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         public ActionResult Index()

@@ -7,15 +7,51 @@ using VouterApp.Models;
 
 namespace VouterApp.Controllers
 {
+        [Authorize]
     public class VoterController : Controller
     {
         //
         // GET: /Voter/
         public ActionResult Index()
         {
-            MyDbContext dc = new MyDbContext();
-            var Vouter = dc.tblVouter.ToList();
-            return View(Vouter);
+            MyDbContext dbContext = new MyDbContext();
+
+
+            IEnumerable<SelectListItem> Regon = dbContext.tblRegion.Select(c => new SelectListItem
+            {
+
+                Text = c.RegionName,
+                Value = c.RegionName.ToString()
+            });
+            ViewBag.rg = Regon;
+
+            IEnumerable<SelectListItem> dstr = dbContext.tblDistrict.Select(c => new SelectListItem
+            {
+
+                Text = c.DistricName,
+                Value = c.DistricName.ToString()
+            });
+            ViewBag.dt = dstr;
+
+            IEnumerable<SelectListItem> usrlis = dbContext.tblUser.Select(c => new SelectListItem
+            {
+
+                Text = c.UserName,
+                Value = c.ID.ToString()
+            });
+            ViewBag.UserList = dstr;
+            return View();
+        }
+
+        public ActionResult GetData()
+        {
+            using (MyDbContext db = new MyDbContext())
+            {
+                List<VouterModel> V = db.tblVouter.ToList<VouterModel>();
+                return Json(new { data = V }, JsonRequestBehavior.AllowGet);
+            }
+
+
         }
         [HttpPost]
         public ActionResult Save(VouterModel Vouter)
@@ -77,13 +113,13 @@ namespace VouterApp.Controllers
             });
             ViewBag.dt = dstr;
 
-            IEnumerable<SelectListItem> usrlis = dbContext.tblUser.Select(c => new SelectListItem
-            {
+            //IEnumerable<SelectListItem> usrlis = dbContext.tblUser.Select(c => new SelectListItem
+            //{
 
-                Text = c.UserName,
-                Value = c.ID.ToString()
-            });
-            ViewBag.UserList = dstr;
+            //    Text = c.UserName,
+            //    Value = c.ID.ToString()
+            //});
+            //ViewBag.UserList = dstr;
             using (MyDbContext dc = new MyDbContext())
             {
                 var v = dc.tblVouter.Where(a => a.ID == id).FirstOrDefault();

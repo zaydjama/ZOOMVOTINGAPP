@@ -205,7 +205,7 @@
     <Content Include="Content\assets\bundles\amcharts4\core.js" />
     <Content Include="Content\assets\bundles\amcharts4\maps.js" />
     <Content Include="Content\assets\bundles\amcharts4\worldLow.js" />
-    <Content Include="Content\assets\bundles\apexcharts\apexcharts.min.js" />
+    <Content Include="Content\assets\bundles\amcharts4\apexcharts\apexcharts.min.js" />
     <Content Include="Content\assets\bundles\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css" />
     <Content Include="Content\assets\bundles\bootstrap-colorpicker\dist\js\bootstrap-colorpicker.min.js" />
     <Content Include="Content\assets\bundles\bootstrap-daterangepicker\daterangepicker.css" />
@@ -980,27 +980,17 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Region\Index.cshtml" />
-    <Content Include="Views\Region\Save.cshtml" />
-    <Content Include="Views\Region\Delete.cshtml" />
     <Content Include="Views\District\Index.cshtml" />
-    <Content Include="Views\District\Save.cshtml" />
-    <Content Include="Views\District\Delete.cshtml" />
     <Content Include="Views\Candidate\Index.cshtml" />
-    <Content Include="Views\Candidate\Save.cshtml" />
-    <Content Include="Views\Candidate\Delete.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\Save.cshtml" />
     <Content Include="Views\Voter\Index.cshtml" />
-    <Content Include="Views\Voter\Save.cshtml" />
     <Content Include="Views\Voter\Delete.cshtml" />
-    <Content Include="Views\Home\Index2.cshtml" />
-    <Content Include="Views\Home\delete.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

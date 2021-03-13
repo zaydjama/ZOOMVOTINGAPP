@@ -1,0 +1,109 @@
+﻿@model VouterApp.Models.UserModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/assets/css/app.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/assets/bundles/bootstrap-social/bootstrap-social.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/components.css" rel="stylesheet" />
+    <title>Login</title>
+
+</head>
+<body class="background-image-body">
+    <div class="loader"></div>
+    <div id="app">
+        <section class="section">
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                     
+                        <div class="card">
+                            <div class="card-header card-header-auth">
+                                <h4>Login</h4>
+                            </div>
+                            <div class="card-body">
+                            @using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+                                   @Html.ValidationSummary(true)
+
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        
+                                        @Html.EditorFor(model => model.UserName)
+                                        @Html.ValidationMessageFor(model => model.UserName)
+                                          <div class="invalid-feedback">
+                                            Please fill in your email
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="d-block">
+                                            <label for="password" class="control-label">Password</label>
+                                            <div class="float-right">
+                                                <a href="auth-forgot-password.html" class="text-small">
+                                                    Forgot Password?
+                                                </a>
+                                            </div>
+                                        </div>
+                                        @Html.EditorFor(model => model.Paswd)
+                                        @Html.ValidationMessageFor(model => model.Paswd)
+                                        <div class="invalid-feedback">
+                                            please fill in your password
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
+                                            <label class="custom-control-label" for="remember-me">Remember Me</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-lg btn-block btn-auth-color" tabindex="4">
+                                            Login
+                                        </button>
+                                    </div>
+                              
+                                <div class="text-center mt-4 mb-3">
+                                    <div class="text-job text-muted">Login With Social</div>
+                                </div>
+                                <div class="row sm-gutters">
+                                    <div class="col-6">
+                                        <a class="btn btn-block btn-social btn-facebook">
+                                            <span class="fab fa-facebook"></span> Facebook
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a class="btn btn-block btn-social btn-twitter">
+                                            <span class="fab fa-twitter"></span> Twitter
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+  
+
+      
+    
+
+    <script src="~/Content/assets/js/app.min.js"></script>
+
+    <script src="~/Content/assets/js/scripts.js"></script>
+</body>
+
+</html>

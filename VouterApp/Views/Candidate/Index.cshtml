@@ -1,87 +1,219 @@
-﻿@model IEnumerable<VouterApp.Models.CandidateModel>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="section-body">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Candidate Info</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
 
-                            <p>
-                                <a class="btn btn-danger" href="/Candidate/save/0" style="margin-bottom:20px; margin-top:20px;">Add New</a>
 
-                            </p>
-                            <table class="table">
-                                <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FirstName)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.SecondName)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.LastName)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Region)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.District)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Party)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Election)
-                                    </th>
-                                    <th></th>
-                                </tr>
 
-                                @foreach (var item in Model)
-                                {
+
+    <div class="section-body">
+        <br />
+        <div class="row">
+            <div class="col-12">
+                <div class="card" id="prinriri">
+                    <div class="card-header">
+                        <h4>Candidate List</h4>
+                    </div>
+                    <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#centerModald">Add New </button>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            <table id="dataTable" class="table table-condensed   table-sm table-hover">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FirstName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.SecondName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LastName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Region)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.District)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Party)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Election)
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("Edit", "Save", new { id = item.ID }, new { @class = "btn btn-danger" }) 
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
-                                        </td>
-                                    </tr>
-                                }
+                                        <th>Id</th>
+                                        <th>FirstName</th>
+                                        <th>SecondName</th>
+                                        <th>LastName</th>
+                                        <th>Region</th>
+                                        <th>District</th>
+                                        <th>Party</th>
+                                        <th>Election</th>
+                                        
+                                        <th>Action</th>
 
+                                    </tr>
+                                </thead>
                             </table>
                         </div>
+
+
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+@section scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+         
+            "ajax": {
+                "url": "/Candidate/GetData",
+                "type": "GET",
+                "datatype": "json"
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "columns": [
+                { "data": "ID" },
+                { "data": "FirstName" },
+                   { "data": "SecondName" },
+                      { "data": "LastName" },
+                       { "data": "Region" },
+                        { "data": "District" },
+                          { "data": "Party" }, { "data": "Election" },
+               {
+                   "data": "ID", "render": function (data) {
+                       return '<a class="btn btn-danger" onclick="Delete(\'' + data + '\')" style="margin-right: 12px"><span class="glyphicon glyphicon-trash"></span>Delete</a><a data-toggle="modal" data-target="#centerModald" class="btn btn-success" onclick="Edit(\'' + data + '\')" style="margin-right: 12px"><span class="glyphicon glyphicon-pencil"></span>Edit</a>';
+                   }
+               },
+
+            ]
+        })
+
+
+    });
+    function Delete(Id) {
+        if (confirm("Are you really want to delete this record?")) {
+            $.ajax({
+                type: 'Post',
+                url: '@Url.Action("Delete", "Candidate")/' + Id ,
+
+                                            success: function (response) {
+
+                                                    location.reload();
+
+                                            }
+                                        });
+                                    }
+                                }
+           function Edit(Id) {
+
+                $.ajax({
+                    type: 'Post',
+                    url: '@Url.Action("Save", "Candidate")/' + Id,
+                    data: { Id: Id },
+
+                    success: function (response) {
+
+                        $('#modal-body').html(result);
+
+                    }
+            });
+
+
+        }
+    </script>
+}
+
+<div class="modal fade" id="centerModald" tabindex="-1" role="dialog" data-backdrop="false"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @model VouterApp.Models.CandidateModel
+           @using (Html.BeginForm("Save", "Candidate", FormMethod.Post, new { id = "formsubmit" }))
+{
+                    @Html.AntiForgeryToken()
+
+
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Candidate Registration</h4>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="form-horizontal">
+
+                                        @Html.ValidationSummary(true)
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.FirstName)
+                                                @Html.ValidationMessageFor(model => model.FirstName)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.SecondName, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.SecondName)
+                                                @Html.ValidationMessageFor(model => model.SecondName)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.LastName)
+                                                @Html.ValidationMessageFor(model => model.LastName)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Region, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+
+                                                @Html.DropDownListFor(model => model.Region, new SelectList(ViewBag.rg, "Value", "Text"), new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Region)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.District, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+
+                                                @Html.DropDownListFor(model => model.District, new SelectList(ViewBag.dt, "Value", "Text"), new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.District)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Party, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Party)
+                                                @Html.ValidationMessageFor(model => model.Party)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Election, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Election)
+                                                @Html.ValidationMessageFor(model => model.Election)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input type="submit" value="Create" class="btn btn-default btn-danger" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+
         </div>
     </div>
 </div>
